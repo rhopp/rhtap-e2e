@@ -1,4 +1,4 @@
-OCP: v4.14, v4.15
+OCP: 4.14, 4.15
 ACS: Enabled(hosted)
 Registry: Quay(hosted)
 TPA: Disabled
