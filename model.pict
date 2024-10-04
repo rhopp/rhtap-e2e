@@ -1,0 +1,6 @@
+OCP: v4.14, v4.15
+ACS: Enabled(hosted)
+Registry: Quay(hosted)
+TPA: Disabled
+SCM: GitHub
+Pipeline/CI: Tekton
