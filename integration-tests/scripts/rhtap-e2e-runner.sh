@@ -14,6 +14,7 @@ export OCI_STORAGE_TOKEN="$(jq -r '."quay-token"' /usr/local/konflux-test-infra/
 export OCI_STORAGE_USERNAME="$(jq -r '."quay-username"' /usr/local/konflux-test-infra/oci-storage)"
 
 export APPLICATION_ROOT_NAMESPACE="rhtap-app"
+export RHTAP_ROOT_NAMESPACE="rhtap-gitops"
 export GITHUB_ORGANIZATION="rhtap-rhdh-qe"
 export GITLAB_ORGANIZATION="rhtap-qe"
 export BITBUCKET_USERNAME="rhtap-test-admin"
