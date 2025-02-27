@@ -61,6 +61,8 @@ spec:
         set -o pipefail
         set -x
 
+        export NODE_TLS_REJECT_UNAUTHORIZED=0
+
         # Log into OpenShift
         $(params.ocp-login-command)
 
