@@ -94,7 +94,7 @@ configure_image_registry() {
     log "INFO" "Setting up image registry configuration"
     
     # Set default organization
-    export IMAGE_REGISTRY_ORG="rhtap"
+    export IMAGE_REGISTRY_ORG="rhtap_qe"
     
     # Check for Quay integration
     if secret_exists "rhtap" "rhtap-quay-integration"; then
