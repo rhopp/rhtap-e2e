@@ -13,7 +13,7 @@ set -o pipefail # The return value of a pipeline is the status of the last comma
 export ARTIFACT_DIR="${ARTIFACT_DIR:-$(mktemp -d)}"
 
 # Default namespace and organization settings
-export APPLICATION_ROOT_NAMESPACE="rhtap-app"
+export APPLICATION_ROOT_NAMESPACE="tssc-app"
 
 # OCI container registry settings
 export OCI_CONTAINER="${OCI_CONTAINER:-""}"
@@ -71,25 +71,25 @@ load_oci_storage_credentials() {
 configure_github_variables() {
     log "INFO" "Configuring GitHub credentials from cluster secrets"
 
-    if ! secret_exists "tssc" "rhtap-github-integration"; then
+    if ! secret_exists "tssc" "tssc-github-integration"; then
         log "WARN" "No GitHub integration secret found in the tssc namespace"
         return 0
     fi
     export GITHUB_ORGANIZATION="rhtap-rhdh-qe"
-    export GITHUB_TOKEN="$(get_secret_value "tssc" "rhtap-github-integration" "token")"
+    export GITHUB_TOKEN="$(get_secret_value "tssc" "tssc-github-integration" "token")"
 }   
 # Extract GitLab organization from Kubernetes secret
 configure_gitlab_variables() {
     log "INFO" "Configuring GitLab credentials from cluster secrets"
     
-    if ! secret_exists "tssc" "rhtap-gitlab-integration"; then
+    if ! secret_exists "tssc" "tssc-gitlab-integration"; then
         log "WARN" "No GitLab integration secret found in the tssc namespace"
         return 0
     fi
     
     # Extract and export all GitLab-related credentials
-    export GITLAB_ORGANIZATION="$(get_secret_value "tssc" "rhtap-gitlab-integration" "group")"
-    export GITLAB_TOKEN="$(get_secret_value "tssc" "rhtap-gitlab-integration" "token")"
+    export GITLAB_ORGANIZATION="$(get_secret_value "tssc" "tssc-gitlab-integration" "group")"
+    export GITLAB_TOKEN="$(get_secret_value "tssc" "tssc-gitlab-integration" "token")"
     
     log "INFO" "GitLab credentials configured successfully (organization: ${GITLAB_ORGANIZATION})"
 }
@@ -97,14 +97,14 @@ configure_gitlab_variables() {
 configure_bitbucket_variables() {
     log "INFO" "Configuring Bitbucket credentials from cluster secrets"
 
-    if ! secret_exists "tssc" "rhtap-bitbucket-integration"; then
+    if ! secret_exists "tssc" "tssc-bitbucket-integration"; then
         log "WARN" "No Bitbucket integration secret found in the tssc namespace"
         return 0
     fi
     export BITBUCKET_USERNAME="rhtap-test-admin"
     export BITBUCKET_WORKSPACE="rhtap-test"
     export BITBUCKET_PROJECT="RHTAP"
-    export BITBUCKET_APP_PASSWORD="$(get_secret_value "tssc" "rhtap-bitbucket-integration" "appPassword")"
+    export BITBUCKET_APP_PASSWORD="$(get_secret_value "tssc" "tssc-bitbucket-integration" "appPassword")"
 }
 
 # Extract registry credentials from docker config JSON in a Kubernetes secret
@@ -143,7 +143,7 @@ configure_image_registry() {
     log "INFO" "Setting up image registry configuration"
     
     local namespace="tssc"
-    local registry_secrets=("rhtap-artifactory-integration" "rhtap-nexus-integration" "rhtap-quay-integration" )
+    local registry_secrets=("tssc-artifactory-integration" "tssc-nexus-integration" "tssc-quay-integration" )
     local registry_secret=""
     
     # Set default organization and registry values
@@ -262,7 +262,7 @@ run_tests() {
 #===========================================
 
 main() {
-    log "INFO" "Starting RHTAP E2E test runner"
+    log "INFO" "Starting TSSC E2E test runner"
     
     # Set up trap for cleanup
     trap post_actions EXIT
