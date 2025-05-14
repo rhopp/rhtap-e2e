@@ -71,25 +71,25 @@ load_oci_storage_credentials() {
 configure_github_variables() {
     log "INFO" "Configuring GitHub credentials from cluster secrets"
 
-    if ! secret_exists "rhtap" "rhtap-github-integration"; then
-        log "WARN" "No GitHub integration secret found in the rhtap namespace"
+    if ! secret_exists "tssc" "rhtap-github-integration"; then
+        log "WARN" "No GitHub integration secret found in the tssc namespace"
         return 0
     fi
     export GITHUB_ORGANIZATION="rhtap-rhdh-qe"
-    export GITHUB_TOKEN="$(get_secret_value "rhtap" "rhtap-github-integration" "token")"
+    export GITHUB_TOKEN="$(get_secret_value "tssc" "rhtap-github-integration" "token")"
 }   
 # Extract GitLab organization from Kubernetes secret
 configure_gitlab_variables() {
     log "INFO" "Configuring GitLab credentials from cluster secrets"
     
-    if ! secret_exists "rhtap" "rhtap-gitlab-integration"; then
-        log "WARN" "No GitLab integration secret found in the rhtap namespace"
+    if ! secret_exists "tssc" "rhtap-gitlab-integration"; then
+        log "WARN" "No GitLab integration secret found in the tssc namespace"
         return 0
     fi
     
     # Extract and export all GitLab-related credentials
-    export GITLAB_ORGANIZATION="$(get_secret_value "rhtap" "rhtap-gitlab-integration" "group")"
-    export GITLAB_TOKEN="$(get_secret_value "rhtap" "rhtap-gitlab-integration" "token")"
+    export GITLAB_ORGANIZATION="$(get_secret_value "tssc" "rhtap-gitlab-integration" "group")"
+    export GITLAB_TOKEN="$(get_secret_value "tssc" "rhtap-gitlab-integration" "token")"
     
     log "INFO" "GitLab credentials configured successfully (organization: ${GITLAB_ORGANIZATION})"
 }
@@ -97,14 +97,14 @@ configure_gitlab_variables() {
 configure_bitbucket_variables() {
     log "INFO" "Configuring Bitbucket credentials from cluster secrets"
 
-    if ! secret_exists "rhtap" "rhtap-bitbucket-integration"; then
-        log "WARN" "No Bitbucket integration secret found in the rhtap namespace"
+    if ! secret_exists "tssc" "rhtap-bitbucket-integration"; then
+        log "WARN" "No Bitbucket integration secret found in the tssc namespace"
         return 0
     fi
     export BITBUCKET_USERNAME="rhtap-test-admin"
     export BITBUCKET_WORKSPACE="rhtap-test"
     export BITBUCKET_PROJECT="RHTAP"
-    export BITBUCKET_APP_PASSWORD="$(get_secret_value "rhtap" "rhtap-bitbucket-integration" "appPassword")"
+    export BITBUCKET_APP_PASSWORD="$(get_secret_value "tssc" "rhtap-bitbucket-integration" "appPassword")"
 }
 
 # Extract registry credentials from docker config JSON in a Kubernetes secret
@@ -142,7 +142,7 @@ extract_registry_credentials() {
 configure_image_registry() {
     log "INFO" "Setting up image registry configuration"
     
-    local namespace="rhtap"
+    local namespace="tssc"
     local registry_secrets=("rhtap-artifactory-integration" "rhtap-nexus-integration" "rhtap-quay-integration" )
     local registry_secret=""
     
@@ -187,7 +187,7 @@ configure_image_registry() {
 configure_developer_hub() {
     log "INFO" "Setting up Red Hat Developer Hub configuration"
     
-    export RED_HAT_DEVELOPER_HUB_URL="https://$(kubectl get route backstage-developer-hub -n rhtap-dh -o jsonpath='{.spec.host}')"
+    export RED_HAT_DEVELOPER_HUB_URL="https://$(kubectl get route backstage-developer-hub -n tssc-dh -o jsonpath='{.spec.host}')"
     log "INFO" "Red Hat Developer Hub URL: ${RED_HAT_DEVELOPER_HUB_URL}"
 }
 
